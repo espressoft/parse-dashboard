@@ -129,9 +129,18 @@ export function dateStringUTC(date) {
 }
 
 export function dateStringLocale(date) {
-  let full = String(date.getDate()) + ' ' +
-    shortMonth(date.getMonth()) + ' ' +
-    String(date.getFullYear()) + ' at ';
+  let month=date.getMonth()+1
+  let date2=date.getDate()
+  if(month<10){
+    month = "0" + month;
+  }
+  if(date2<10){
+    date2 = "0" + date2;
+  }
+  // let full = String(date.getDate()) + ' ' +
+  //   shortMonth(date.getMonth()) + ' ' +
+  //   String(date.getFullYear()) + ' at ';
+  let full=String(String(date.getFullYear()+'-'+month+'-'+date2 +' '))
   let time = {
     hours: String(date.getHours()),
     minutes: String(date.getMinutes()),
