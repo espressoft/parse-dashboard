@@ -111,24 +111,21 @@ export function monthsFrom(date, delta) {
 }
 
 export function dateStringUTC(date) {
-  let full = String(date.getUTCDate()) + ' ' +
-    shortMonth(date.getUTCMonth()) + ' ' +
-    String(date.getUTCFullYear()) + ' at ';
-  let time = {
-    hours: String(date.getUTCHours()),
-    minutes: String(date.getUTCMinutes()),
-    seconds: String(date.getUTCSeconds())
-  };
-  for (let k in time) {
-    if (time[k].length < 2) {
-      time[k] = '0' + time[k];
-    }
-  }
-  full += time.hours + ':' + time.minutes + ':' + time.seconds + ' UTC';
-  return full;
-}
-
-export function dateStringLocale(date) {
+  // let full = String(date.getUTCDate()) + ' ' +
+  //   shortMonth(date.getUTCMonth()) + ' ' +
+  //   String(date.getUTCFullYear()) + ' at ';
+  // let time = {
+  //   hours: String(date.getUTCHours()),
+  //   minutes: String(date.getUTCMinutes()),
+  //   seconds: String(date.getUTCSeconds())
+  // };
+  // for (let k in time) {
+  //   if (time[k].length < 2) {
+  //     time[k] = '0' + time[k];
+  //   }
+  // }
+  // full += time.hours + ':' + time.minutes + ':' + time.seconds + ' UTC';
+  // return full;
   let month=date.getMonth()+1
   let date2=date.getDate()
   if(month<10){
@@ -137,9 +134,6 @@ export function dateStringLocale(date) {
   if(date2<10){
     date2 = "0" + date2;
   }
-  // let full = String(date.getDate()) + ' ' +
-  //   shortMonth(date.getMonth()) + ' ' +
-  //   String(date.getFullYear()) + ' at ';
   let full=String(String(date.getFullYear()+'-'+month+'-'+date2 +' '))
   let time = {
     hours: String(date.getHours()),
@@ -154,6 +148,33 @@ export function dateStringLocale(date) {
   full += time.hours + ':' + time.minutes + ':' + time.seconds;
   return full;
 }
+
+// export function dateStringLocale(date) {
+//   let month=date.getMonth()+1
+//   let date2=date.getDate()
+//   if(month<10){
+//     month = "0" + month;
+//   }
+//   if(date2<10){
+//     date2 = "0" + date2;
+//   }
+//   // let full = String(date.getDate()) + ' ' +
+//   //   shortMonth(date.getMonth()) + ' ' +
+//   //   String(date.getFullYear()) + ' at ';
+//   let full=String(String(date.getFullYear()+'-'+month+'-'+date2 +' '))
+//   let time = {
+//     hours: String(date.getHours()),
+//     minutes: String(date.getMinutes()),
+//     seconds: String(date.getSeconds())
+//   };
+//   for (let k in time) {
+//     if (time[k].length < 2) {
+//       time[k] = '0' + time[k];
+//     }
+//   }
+//   full += time.hours + ':' + time.minutes + ':' + time.seconds;
+//   return full;
+// }
 
 export function monthDayStringUTC(date) {
   return `${shortMonth(date.getUTCMonth())} ${date.getUTCDate()}`;

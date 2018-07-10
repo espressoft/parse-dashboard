@@ -8,6 +8,7 @@
 import PropTypes from 'lib/PropTypes';
 import React     from 'react';
 import styles    from 'components/LogView/LogViewEntry.scss';
+import { dateStringUTC }         from 'lib/DateUtils';
 
 const TIMESTAMP_REGEX = [
   '([a-z])', // Any Single Word Character (Not Whitespace) 1
@@ -41,10 +42,12 @@ let LogViewEntry = ({
 }) => {
   let logEntryInfo = getLogEntryInfo(text);
   let classes = [styles.entry, logEntryInfo.error ? styles.error: ''];
+  let oldDate=new Date(timestamp)
+  let newDate=dateStringUTC(oldDate)
   return (
     <li className={classes.join(' ')}>
       {/* handle the timestamp format used by both Parse Server and Parse.com */}
-      <span className={styles.time}>{timestamp.iso || timestamp} - </span>
+      <span className={styles.time}>{newDate} - </span>
       <span className={styles.content}>{logEntryInfo.content}</span>
     </li>
   );
