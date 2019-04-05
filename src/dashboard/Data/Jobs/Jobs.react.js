@@ -60,8 +60,9 @@ function scheduleString(data) {
 }
 
 // TODO: create scrollable view component that handles lazy fetch container on scroll
+export default
 @subscribeTo('Jobs', 'jobs')
-export default class Jobs extends TableView {
+class Jobs extends TableView {
   constructor() {
     super();
     this.section = 'Core';
@@ -98,7 +99,7 @@ export default class Jobs extends TableView {
   }
 
   loadData() {
-    this.props.jobs.dispatch(ActionTypes.FETCH).always(() => {
+    this.props.jobs.dispatch(ActionTypes.FETCH).finally(() => {
       this.setState({ loading: false });
     });
     this.context.currentApp.getJobStatus().then((status) => {

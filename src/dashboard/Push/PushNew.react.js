@@ -35,7 +35,6 @@ import TextInput               from 'components/TextInput/TextInput.react';
 import Toggle                  from 'components/Toggle/Toggle.react';
 import Toolbar                 from 'components/Toolbar/Toolbar.react';
 import { Directions }          from 'lib/Constants';
-import { Promise }             from 'parse';
 import { extractExpiration, extractPushTime } from 'lib/extractTime';
 import * as queryString        from 'query-string';
 
@@ -122,9 +121,10 @@ let LocalizedMessageField = ({
 
 const XHR_KEY = 'PushNew';
 
+export default
 @subscribeTo('Schema', 'schema')
 @subscribeTo('PushAudiences', 'pushaudiences')
-export default class PushNew extends DashboardView {
+class PushNew extends DashboardView {
   constructor() {
     super();
     this.xhrs = [];
@@ -133,7 +133,7 @@ export default class PushNew extends DashboardView {
     this.state = {
       pushAudiencesFetched: false,
       deviceCount: null,
-      initialAudienceId: 'everyone',
+      initialAudienceId: null,
       audienceSizeSuggestion: null,
       recipientCount: null,
       isLocalizationAvailable: false,
@@ -186,7 +186,6 @@ export default class PushNew extends DashboardView {
   //TODO: scroll audience row into view if req.
 
   handlePushSubmit(changes) {
-    let promise = new Promise();
     let payload = changes.data_type === 'json' ? JSON.parse(changes.data) : { alert: changes.data };
     if (changes.increment_badge) {
       payload.badge = "Increment";
@@ -221,25 +220,22 @@ export default class PushNew extends DashboardView {
       body.where = pushAudience.query;
     }
 
-    Parse.Push.send(body, {
+    return Parse.Push.send(body, {
       useMasterKey: true,
     }).then(({ error }) => {
       //navigate to push index page and clear cache once push store is created
       if (error) {
-        promise.reject({ error });
+        throw { error };
       } else {
         //TODO: global success message banner for passing successful creation - store should also be cleared
         const PARSE_SERVER_SUPPORTS_PUSH_INDEX = false;
         if (PARSE_SERVER_SUPPORTS_PUSH_INDEX) {
           history.push(this.context.generatePath('push/activity'));
         } else {
-          promise.resolve();
+          return;
         }
       }
-    }, (error) => {
-      promise.reject(error);
     });
-    return promise;
   }
 
   renderExperimentContent(fields, setField) {
@@ -636,7 +632,7 @@ export default class PushNew extends DashboardView {
         pushAudiencesStore={this.props.pushaudiences}
         current={fields.audience_id}
         onChange={(audienceId, queryOrFilters, deviceCount) => {
-          this.setState({ deviceCount });
+          this.setState({ deviceCount, audienceId });
           setField('audience_id', audienceId);
           if (audienceId === PushConstants.NEW_SEGMENT_ID) {
             // Horrible code here is due to old rails code that sent pushes through it's own endpoint, while Parse Server sends through Parse.Push.
@@ -731,6 +727,11 @@ export default class PushNew extends DashboardView {
   valid(changes) {
     let emptyInputMessages = [];
     let invalidInputMessages = [];
+
+    if (!this.state.audienceId) {
+      emptyInputMessages.push('you need select an audience');
+    }
+
     // when number audience size is 0
     if (this.state.deviceCount === 0) {
       emptyInputMessages.push('recipient count for this campaign');

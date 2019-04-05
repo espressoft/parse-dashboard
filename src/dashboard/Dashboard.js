@@ -27,7 +27,6 @@ import JobsData           from 'dashboard/Data/Jobs/JobsData.react';
 import Loader             from 'components/Loader/Loader.react';
 import Logs               from './Data/Logs/Logs.react';
 import Migration          from './Data/Migration/Migration.react';
-import Parse              from 'parse';
 import ParseApp           from 'lib/ParseApp';
 import Performance        from './Analytics/Performance/Performance.react';
 import PushAudiencesIndex from './Push/PushAudiencesIndex.react';
@@ -54,6 +53,7 @@ import {
 } from 'react-router';
 import { Route, Redirect } from 'react-router-dom';
 import createClass from 'create-react-class';
+import { Helmet } from 'react-helmet';
 
 const ShowSchemaOverview = false; //In progress features. Change false to true to work on this feature.
 
@@ -102,7 +102,7 @@ const PARSE_DOT_COM_SERVER_INFO = {
   parseServerVersion: 'Parse.com',
 }
 
-class Dashboard extends React.Component {
+export default class Dashboard extends React.Component {
   constructor(props) {
     super();
     this.state = {
@@ -121,7 +121,7 @@ class Dashboard extends React.Component {
           //api.parse.com doesn't have feature availability endpoint, fortunately we know which features
           //it supports and can hard code them
           app.serverInfo = PARSE_DOT_COM_SERVER_INFO;
-          return Parse.Promise.as(app);
+          return Promise.resolve(app);
         } else {
           app.serverInfo = {}
           return new ParseApp(app).apiRequest(
@@ -139,32 +139,32 @@ class Dashboard extends React.Component {
                 enabledFeatures: {},
                 parseServerVersion: "unknown"
               }
-              return Parse.Promise.as(app);
+              return Promise.resolve(app);
             } else if (error.code === 107) {
               app.serverInfo = {
                 error: 'server version too low',
                 enabledFeatures: {},
                 parseServerVersion: "unknown"
               }
-              return Parse.Promise.as(app);
+              return Promise.resolve(app);
             } else {
               app.serverInfo = {
                 error: error.message || 'unknown error',
                 enabledFeatures: {},
                 parseServerVersion: "unknown"
               }
-              return Parse.Promise.as(app);
+              return Promise.resolve(app);
             }
           });
         }
       });
-      return Parse.Promise.when(appInfoPromises);
+      return Promise.all(appInfoPromises);
     }).then(function(resolvedApps) {
       resolvedApps.forEach(app => {
         AppsManager.addApp(app);
       });
       this.setState({ configLoadingState: AsyncStatus.SUCCESS });
-    }.bind(this)).fail(({ error }) => {
+    }.bind(this)).catch(({ error }) => {
       this.setState({
         configLoadingError: error,
         configLoadingState: AsyncStatus.FAILED
@@ -258,7 +258,7 @@ class Dashboard extends React.Component {
           <Route path={ match.path + '/webhooks' } component={Webhooks} />
 
           <Route path={ match.path + '/jobs' } component={JobsRoute}/>
-          
+
           <Route path={ match.path + '/logs/:type' } render={(props) => (
             <Logs {...props} params={props.match.params} />
           )} />
@@ -267,7 +267,7 @@ class Dashboard extends React.Component {
           <Route path={ match.path + '/config' } component={Config} />
           <Route path={ match.path + '/api_console' } component={ApiConsole} />
           <Route path={ match.path + '/migration' } component={Migration} />/>
-          
+
 
           <Redirect exact from={ match.path + '/push' } to='/apps/:appId/push/new' />
           <Redirect exact from={ match.path + '/push/activity' } to='/apps/:appId/push/activity/all'  />
@@ -302,6 +302,9 @@ class Dashboard extends React.Component {
     return (
       <Router history={history}>
         <div>
+          <Helmet>
+            <title>Parse Dashboard</title>
+          </Helmet>
           <Switch>
             <Route path='/apps' component={Index} />
             <Route path='/account/overview' component={AccountSettingsPage} />
@@ -314,6 +317,3 @@ class Dashboard extends React.Component {
     );
   }
 }
-
-
-module.exports = Dashboard;
