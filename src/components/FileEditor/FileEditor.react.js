@@ -53,8 +53,7 @@ export default class FileEditor extends React.Component {
     }
   }
     
-    openFileWithHeader(fileurl) {
-        console.log(this.context.currentApp);
+  openFileWithHeader(fileurl) {
         var req = new XMLHttpRequest();
         req.open('GET', fileurl, true); //true means request will be async
         req.responseType = "blob";
@@ -69,7 +68,7 @@ export default class FileEditor extends React.Component {
         
         req.setRequestHeader('X-Parse-Application-Id', this.context.currentApp.applicationId );
         req.send();
-    }
+  }
 
   render() {
     const file = this.props.value;
