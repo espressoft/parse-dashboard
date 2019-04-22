@@ -50,12 +50,19 @@ export default class FileEditor extends React.Component {
       this.props.onCommit(new Parse.File(file.name, file));
     }
   }
+    
+    openFileWithHeader(fileurl) {
+        var req = new XMLHttpRequest();
+        req.open('GET', file.url(), true); //true means request will be async
+        req.setRequestHeader('header_name', 'header_value');
+        req.send();
+    }
 
   render() {
     const file = this.props.value;
     return (
       <div ref='input' style={{ minWidth: this.props.width }} className={styles.editor}>
-        {file && file.url() ? <a href={file.url()} target='_blank' role='button' className={styles.download}>Downloadddddd</a> : null}
+        {file && file.url() ? <a href='javascript:;' role='button' className={styles.download} onClick={() => openFileWithHeader(file.url)}>Download</a> : null}
         <a className={styles.upload}>
           <input type='file' onChange={this.handleChange.bind(this)} />
           <span>{file ? 'Replace file' : 'Upload file'}</span>
