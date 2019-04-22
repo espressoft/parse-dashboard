@@ -53,7 +53,7 @@ export default class FileEditor extends React.Component {
     
     openFileWithHeader(fileurl) {
         var req = new XMLHttpRequest();
-        req.open('GET', file.url(), true); //true means request will be async
+        req.open('GET', fileurl, true); //true means request will be async
         req.setRequestHeader('header_name', 'header_value');
         req.send();
     }
