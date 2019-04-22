@@ -65,7 +65,7 @@ export default class FileEditor extends React.Component {
             FileSaver.saveAs(file,filename);
         };
         
-        req.setRequestHeader('X-Parse-Application-Id', 'j836GbrAG1uquh1GtkhliEau1B0ylheZXW8Zqk4Y');
+        req.setRequestHeader('X-Parse-Application-Id', this.context.currentApp.applicationId);
         req.send();
     }
 
