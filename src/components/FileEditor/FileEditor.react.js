@@ -86,4 +86,6 @@ export default class FileEditor extends React.Component {
   }
 }
 
-
+FileEditor.contextTypes = {
+  currentApp: React.PropTypes.instanceOf(ParseApp)
+};
