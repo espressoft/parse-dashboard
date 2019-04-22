@@ -9,6 +9,7 @@ import hasAncestor from 'lib/hasAncestor';
 import Parse from 'parse';
 import React from 'react';
 import styles from 'components/FileEditor/FileEditor.scss';
+import FileSaver from 'file-saver';
 
 export default class FileEditor extends React.Component {
   constructor(props) {
@@ -61,7 +62,7 @@ export default class FileEditor extends React.Component {
                                 type: 'application/gzip'
                                 });
             
-            saveAs(file,filename);
+            FileSaver.saveAs(file,filename);
         };
         
         req.setRequestHeader('X-Parse-Application-Id', 'j836GbrAG1uquh1GtkhliEau1B0ylheZXW8Zqk4Y');

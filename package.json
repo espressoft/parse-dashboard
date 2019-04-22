@@ -33,6 +33,7 @@
     "LICENSE"
   ],
   "dependencies": {
+    "file-saver": "2.0.1",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
     "commander": "^2.9.0",
