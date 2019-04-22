@@ -24,17 +24,12 @@ export default class FileEditor extends React.Component {
     this.handleKey = this.handleKey.bind(this);
   }
 
-    componentWillReceiveProps(props, context) {
-        console.log(context.currentApp);
-        
-    }
   componentDidMount() {
     document.body.addEventListener('click', this.checkExternalClick);
     document.body.addEventListener('keypress', this.handleKey);
   }
 
   componentWillUnmount() {
-    const { currentApp } = this.context;
     document.body.removeEventListener('click', this.checkExternalClick);
     document.body.removeEventListener('keypress', this.handleKey);
   }
@@ -59,6 +54,7 @@ export default class FileEditor extends React.Component {
   }
     
     openFileWithHeader(fileurl) {
+        console.log(this.context);
         var req = new XMLHttpRequest();
         req.open('GET', fileurl, true); //true means request will be async
         req.responseType = "blob";
