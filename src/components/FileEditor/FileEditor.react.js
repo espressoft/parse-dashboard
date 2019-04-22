@@ -54,6 +54,16 @@ export default class FileEditor extends React.Component {
     openFileWithHeader(fileurl) {
         var req = new XMLHttpRequest();
         req.open('GET', fileurl, true); //true means request will be async
+        req.responseType = "blob";
+        req.onload = function() {
+            var filename = fileurl.substring(fileurl.lastIndexOf('/')+1);
+            var file = new Blob([req.response], {
+                                type: 'application/gzip'
+                                });
+            
+            saveAs(file,filename);
+        };
+        
         req.setRequestHeader('X-Parse-Application-Id', 'j836GbrAG1uquh1GtkhliEau1B0ylheZXW8Zqk4Y');
         req.send();
     }
