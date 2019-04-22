@@ -10,6 +10,7 @@ import Parse from 'parse';
 import React from 'react';
 import styles from 'components/FileEditor/FileEditor.scss';
 import FileSaver from 'file-saver';
+import ParseApp      from 'lib/ParseApp';
 
 export default class FileEditor extends React.Component {
   constructor(props) {
