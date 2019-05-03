@@ -58,7 +58,7 @@ export default class FileEditor extends React.Component {
         req.open('GET', fileurl, true); //true means request will be async
         req.responseType = "blob";
         req.onload = function() {
-            console.log("blob");
+            console.log('blob')
             var filename = fileurl.substring(fileurl.lastIndexOf('/')+1);
             var file = new Blob([req.response], {
                                 type: 'application/zip'
