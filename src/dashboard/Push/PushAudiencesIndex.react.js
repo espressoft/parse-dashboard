@@ -29,9 +29,10 @@ import { List }                 from 'immutable';
 
 const XHR_KEY = 'PushAudiencesIndex';
 
+export default
 @subscribeTo('Schema', 'schema')
 @subscribeTo('PushAudiences', 'pushaudiences')
-export default class PushAudiencesIndex extends DashboardView {
+class PushAudiencesIndex extends DashboardView {
   constructor() {
     super();
     this.section = 'Push';
@@ -57,7 +58,7 @@ export default class PushAudiencesIndex extends DashboardView {
         xhrKey: XHR_KEY,
       }).then(() => {
 
-    }).always(() => {
+    }).finally(() => {
       this.setState({ loading: false });
     });
     this.context.currentApp.fetchAvailableDevices().then(({ available_devices }) => {
@@ -116,7 +117,7 @@ export default class PushAudiencesIndex extends DashboardView {
     return (
       <PushAudiencesIndexRow
         key={audience.objectId}
-        id={audience.objectId}
+        id={`${audience.objectId}`}
         name={audience.name}
         query={audience.query}
         createdAt={new Date(audience.createdAt)}

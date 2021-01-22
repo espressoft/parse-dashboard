@@ -26,10 +26,10 @@ function PushAudiencesStore(state, action) {
     case ActionTypes.FETCH:
       if (state && new Date() - state.get('lastFetch') < LASTFETCHTIMEOUT) { //check for stale store
         if (state.get('audiences') && state.get('audiences').size >= (action.min || 0)) { //check for valid audience size
-          return Parse.Promise.as(state);
+          return Promise.resolve(state);
         }
       }
-      const path = action.limit ? `push_audiences?audience_limit=${action.limit}` : 'push_audiences';
+      const path = action.limit ? `push_audiences?limit=${action.limit}` : 'push_audiences';
       const promise = Parse._request('GET', path, {}, { useMasterKey: true });
 
       return promise.then(({ results, showMore }) => {
@@ -59,7 +59,7 @@ function PushAudiencesStore(state, action) {
             });
           });
     case ActionTypes.ABORT_FETCH:
-      return Parse.Promise.as(state);
+      return Promise.resolve(state);
   }
 }
 

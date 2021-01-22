@@ -10,6 +10,7 @@ import BrowserToolbar         from 'dashboard/Data/Browser/BrowserToolbar.react'
 import * as ColumnPreferences from 'lib/ColumnPreferences';
 import ParseApp               from 'lib/ParseApp';
 import React                  from 'react';
+import PropTypes   from 'lib/PropTypes';
 import { SpecialClasses }     from 'lib/Constants';
 
 /**
@@ -199,6 +200,7 @@ export default class DataBrowser extends React.Component {
           handleResize={this.handleResize.bind(this)}
           setEditing={this.setEditing.bind(this)}
           setCurrent={this.setCurrent.bind(this)}
+          timezone={this.context.currentApp.timezone}
           {...other} />
         <BrowserToolbar
           hidePerms={className === '_Installation'}
@@ -215,5 +217,5 @@ export default class DataBrowser extends React.Component {
 }
 
 DataBrowser.contextTypes = {
-  currentApp: React.PropTypes.instanceOf(ParseApp)
+  currentApp: PropTypes.instanceOf(ParseApp)
 };
