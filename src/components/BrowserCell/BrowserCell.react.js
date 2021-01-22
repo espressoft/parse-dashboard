@@ -39,7 +39,8 @@ let BrowserCell = ({ type, value, hidden, width, current, timezone, onSelect, on
       </a>
     );
   } else if (type === 'Date') {
-    content = dateStringUTC(value, timezone);
+    content = "XXX';
+    //content = dateStringUTC(value, timezone);
   } else if (type === 'Boolean') {
     content = value ? 'True' : 'False';
   } else if (type === 'Array') {
