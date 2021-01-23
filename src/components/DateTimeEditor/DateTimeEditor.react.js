@@ -9,6 +9,7 @@ import DateTimePicker from 'components/DateTimePicker/DateTimePicker.react';
 import hasAncestor    from 'lib/hasAncestor';
 import React          from 'react';
 import styles         from 'components/DateTimeEditor/DateTimeEditor.scss';
+import moment	      from 'moment';
 
 export default class DateTimeEditor extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export default class DateTimeEditor extends React.Component {
       open: false,
       position: null,
       value: props.value,
-      text: props.value.toLocaleString()
+      text: moment(props.value).format('YYYY-MM-DD HH:MI:SS')
       // text: props.value.toISOString()
     };
 
