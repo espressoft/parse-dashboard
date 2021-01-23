@@ -72,7 +72,8 @@ export default class DateTimeEditor extends React.Component {
       if (this.state.text.endsWith('Z')) {
         this.setState({ value: date });
       } else {
-        let utc = new Date(Date.UTC(
+        //let utc = new Date(Date.UTC(
+        let utc = new Date(
           date.getFullYear(),
           date.getMonth(),
           date.getDate(),
@@ -80,7 +81,8 @@ export default class DateTimeEditor extends React.Component {
           date.getMinutes(),
           date.getSeconds(),
           date.getMilliseconds()
-        ));
+        //));
+        );
         this.setState({ value: utc });
       }
     }
