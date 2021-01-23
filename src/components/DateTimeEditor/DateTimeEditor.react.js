@@ -53,7 +53,7 @@ export default class DateTimeEditor extends React.Component {
   }
 
   toggle() {
-    this.setState((state) => ({ open: !state.open }));
+  //  this.setState((state) => ({ open: !state.open }));
   }
 
   inputDate(e) {
