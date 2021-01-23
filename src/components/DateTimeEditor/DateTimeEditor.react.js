@@ -18,7 +18,8 @@ export default class DateTimeEditor extends React.Component {
       open: false,
       position: null,
       value: props.value,
-      text: props.value.toISOString()
+      text: props.value
+      // text: props.value.toISOString()
     };
 
     this.checkExternalClick = this.checkExternalClick.bind(this);
