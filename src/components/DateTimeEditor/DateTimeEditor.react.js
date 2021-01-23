@@ -19,7 +19,7 @@ export default class DateTimeEditor extends React.Component {
       open: false,
       position: null,
       value: props.value,
-      text: moment(props.value).format('YYYY-MM-DD HH:MI:SS')
+      text: moment(props.value).format('YYYY-MM-DD HH:mm:ss')
       // text: props.value.toISOString()
     };
 
