@@ -18,7 +18,7 @@ export default class DateTimeEditor extends React.Component {
       open: false,
       position: null,
       value: props.value,
-      text: props.value
+      text: props.value.toLocaleString()
       // text: props.value.toISOString()
     };
 
